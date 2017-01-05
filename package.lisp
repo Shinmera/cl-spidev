@@ -49,6 +49,13 @@
 (defpackage #:cl-spidev
   (:nicknames #:org.shirakumo.spidev #:spidev)
   (:use #:cl)
+  (:shadow #:open #:close)
   ;; wrapper.lisp
   (:export
-   ))
+   #:handle
+   #:open
+   #:close
+   #:mode
+   #:lsb-first
+   #:bits/word
+   #:max-speed))

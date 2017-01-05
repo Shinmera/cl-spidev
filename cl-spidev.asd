@@ -17,4 +17,5 @@
                (:file "low-level")
                (:file "wrapper")
                (:file "documentation"))
-  :depends-on (:documentation-utils))
+  :depends-on (:documentation-utils
+               :trivial-garbage))
