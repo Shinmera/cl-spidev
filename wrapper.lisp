@@ -9,11 +9,11 @@
 (defstruct (handle
             (:copier)
             (:predicate))
-  (stream :type stream :read-only T)
-  (mode :type keyword)
-  (lsb-first :type boolean)
-  (bits/word :type (unsigned-byte 8))
-  (max-speed :type (unsigned-byte 32)))
+  (stream (make-broadcast-stream) :type stream :read-only T)
+  (mode :unknown :type keyword)
+  (lsb-first NIL :type boolean)
+  (bits/word 0 :type (unsigned-byte 8))
+  (max-speed 0 :type (unsigned-byte 32)))
 
 (defun open (id)
   (let ((stream (cl-spidev-lli:open-spi id))
