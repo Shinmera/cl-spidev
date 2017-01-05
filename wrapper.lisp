@@ -58,8 +58,16 @@
   (setf (cl-spidev-lli:max-speed (handle-stream handle)) value)
   (setf (handle-max-speed handle) value))
 
+(defun read (bytes handle &key (start 0) end)
+  (cl-spidev-lli:read-bytes bytes handle :start start :end end))
+
+(defun read* (n handle)
+  (let ((array (make-array n :element-type '(unsigned-byte 8))))
+    (read array handle)
+    array))
+
 (defun write (bytes handle &key (start 0) end)
   (cl-spidev-lli:write-bytes bytes handle :start start :end end))
 
-(defun read (bytes handle &key (start 0) end)
-  (cl-spidev-lli:read-bytes bytes handle :start start :end end))
+(defun write* (handle &rest bytes)
+  (write bytes handle))

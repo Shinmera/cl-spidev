@@ -62,4 +62,6 @@
    #:bits/word
    #:max-speed
    #:read
-   #:write))
+   #:read*
+   #:write
+   #:write*))
