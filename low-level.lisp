@@ -128,3 +128,9 @@
       (warn "Failed to set max speed to ~a, reset to ~a."
             value actual))
     actual))
+
+(defun write-bytes (bytes handle &key (start 0) end)
+  (write-sequence bytes handle :start start :end end))
+
+(defun read-bytes (bytes handle &key (start 0) end)
+  (read-sequence bytes handle :start start :end end))

@@ -44,12 +44,14 @@
    #:mode
    #:lsb-first
    #:bits/word
-   #:max-speed))
+   #:max-speed
+   #:write-bytes
+   #:read-bytes))
 
 (defpackage #:cl-spidev
   (:nicknames #:org.shirakumo.spidev #:spidev)
   (:use #:cl)
-  (:shadow #:open #:close)
+  (:shadow #:open #:close #:read #:write)
   ;; wrapper.lisp
   (:export
    #:handle
@@ -58,4 +60,6 @@
    #:mode
    #:lsb-first
    #:bits/word
-   #:max-speed))
+   #:max-speed
+   #:read
+   #:write))
