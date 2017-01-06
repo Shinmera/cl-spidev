@@ -69,10 +69,10 @@
 (defun mode (handle)
   (let ((mode (ioctl handle SPI-IOC-RD-MODE32)))
     (case mode
-      (SPI-MODE-0 :mode-0)
-      (SPI-MODE-1 :mode-1)
-      (SPI-MODE-2 :mode-2)
-      (SPI-MODE-3 :mode-3)
+      (#.SPI-MODE-0 :mode-0)
+      (#.SPI-MODE-1 :mode-1)
+      (#.SPI-MODE-2 :mode-2)
+      (#.SPI-MODE-3 :mode-3)
       (T mode))))
 
 (defun (setf mode) (mode handle)
