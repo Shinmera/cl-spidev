@@ -8,7 +8,7 @@
 
 ;; According to https://www.kernel.org/doc/Documentation/spi/spidev
 
-(defvar *spidev-root* #p"/sys/class/spidev/")
+(defvar *spidev-root* #p"/dev/")
 
 ;; Read out using constants.c
 (defconstant SPI-CPHA                 #x1)
@@ -38,17 +38,16 @@
 (defconstant SPI-IOC-RD-MODE32        #x80046B05)
 (defconstant SPI-IOC-WR-MODE32        #x40046B05)
 
-(defun directory-name (pathname)
-  (let ((directory (pathname-directory pathname)))
-    (when (cdr directory)
-      (car (last directory)))))
+(defun file-name (pathname)
+  (format NIL "~a~@[.~a~]"
+          (pathname-name pathname) (pathname-type pathname)))
 
 (defun spidev-file (id)
-  (merge-pathnames (format NIL "spidev~a/device" id) *spidev-root*))
+  (merge-pathnames (format NIL "spidev~a" id) *spidev-root*))
 
 (defun devices ()
-  (loop for directory in (directory (spidev-file "*"))
-        collect (subseq (directory-name directory) (length "spidev"))))
+  (loop for device in (directory (spidev-file "*"))
+        collect (file-name device)))
 
 (defun open-spi (id &key (direction :io))
   (open (spidev-file id) :direction direction
