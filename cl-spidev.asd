@@ -15,6 +15,7 @@
   :serial T
   :components ((:file "package")
                (:file "ioctl")
+               (:file "constants")
                (:file "low-level")
                (:file "wrapper")
                (:file "documentation"))
