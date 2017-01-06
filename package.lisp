@@ -52,8 +52,10 @@
   (:nicknames #:org.shirakumo.spidev #:spidev)
   (:use #:cl)
   (:shadow #:open #:close #:read #:write)
+  (:import-from #:org.shirakumo.spidev.lli #:devices)
   ;; wrapper.lisp
   (:export
+   #:devices
    #:handle
    #:open
    #:close
