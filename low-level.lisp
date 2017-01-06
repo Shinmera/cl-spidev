@@ -46,8 +46,9 @@
   (merge-pathnames (format NIL "spidev~a" id) *spidev-root*))
 
 (defun devices ()
-  (loop for device in (directory (spidev-file "*"))
-        collect (file-name device)))
+  (loop for device in (directory (make-pathname :name "*" :type "*" :defaults *spidev-root*))
+        when (eql 0 (search "spidev" (file-name device)))
+        collect (subseq (file-name device) (length "spidev"))))
 
 (defun open-spi (id &key (direction :io))
   (open (spidev-file id) :direction direction
