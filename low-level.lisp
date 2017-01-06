@@ -50,25 +50,6 @@
   (loop for directory in (directory (spidev-file "*"))
         collect (subseq (directory-name directory) (length "spidev"))))
 
-(defun ioctl (fd cmd)
-  #+sbcl (sb-alien:with-alien ((result sb-alien:int))
-           (multiple-value-bind (wonp error)
-               (sb-unix:unix-ioctl fd cmd (sb-alien:alien-sap (sb-alien:addr result)))
-             (unless wonp
-               (error "IOCTL ~a failed: ~a" cmd (sb-impl::strerror error))))
-           result)
-  #-sbcl #.(error "Implementation not supported."))
-
-(defun (setf ioctl) (arg fd cmd)
-  #+sbcl (sb-alien:with-alien ((value sb-alien:int))
-           (setf value arg)
-           (multiple-value-bind (wonp error)
-               (sb-unix:unix-ioctl (sb-sys:fd-stream-fd fd) cmd (sb-alien:alien-sap (sb-alien:addr value)))
-             (unless wonp
-               (error "IOCTL ~a failed: ~a" cmd (sb-impl::strerror error))))
-           arg)
-  #-sbcl #.(error "Implementation not supported."))
-
 (defun open-spi (id &key (direction :io))
   (open (spidev-file id) :direction direction
                          :element-type '(unsigned-byte 8)))

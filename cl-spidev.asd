@@ -14,6 +14,7 @@
   :homepage "https://github.com/Shinmera/cl-spidev"
   :serial T
   :components ((:file "package")
+               (:file "ioctl")
                (:file "low-level")
                (:file "wrapper")
                (:file "documentation"))
