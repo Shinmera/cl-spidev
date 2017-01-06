@@ -30,7 +30,7 @@
   (ccl:rletz ((result :int))
     (let ((ret (ccl:external-call "ioctl" :int (ccl:stream-device fd :io)
                                           :unsigned-long cmd
-                                          (:* :int) cmd
+                                          (:* :int) result
                                           :int)))
       (if (<= 0 ret)
           (ccl:pref result :int)
@@ -42,7 +42,7 @@
     (setf (ccl:pref value :int) arg)
     (let ((ret (ccl:external-call "ioctl" :int (ccl:stream-device fd :io)
                                           :unsigned-long cmd
-                                          (:* :int) cmd
+                                          (:* :int) value
                                           :int)))
       (if (<= 0 ret)
           arg
