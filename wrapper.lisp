@@ -32,6 +32,7 @@
     handle))
 
 (defun close (handle)
+  (tg:cancel-finalization handle)
   (cl-spidev-lli:close-spi (handle-stream handle)))
 
 (setf (fdefinition 'mode) (fdefinition 'handle-mode))
