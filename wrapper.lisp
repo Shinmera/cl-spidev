@@ -56,14 +56,14 @@
 
 (defun (setf max-speed) (value handle)
   (check-type value (unsigned-byte 32))
-  (setf (cl-spidev-lli:max-speed (handle-stream handle)) value)
-  (setf (handle-max-speed handle) value))
+  (let ((value (setf (cl-spidev-lli:max-speed (handle-stream handle)) value)))
+    (setf (handle-max-speed handle) value)))
 
 (defun read (bytes handle &key (start 0) end)
   (cl-spidev-lli:read-bytes bytes handle :start start :end end))
 
 (defun read* (n handle)
-  (let ((array (make-array n :element-type '(unsigned-byte 8))))
+  (let ((array (make-array n :element-type `(unsigned-byte ,(bits/word handle)))))
     (read array handle)
     array))
 
