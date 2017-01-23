@@ -13,12 +13,12 @@
         (sb-unix:unix-ioctl fd cmd (sb-alien:alien-sap (sb-alien:addr result)))
       (unless wonp
         (error "IOCTL ~a failed: ~a" cmd (sb-impl::strerror error))))
-    (sb-alien:deref result)))
+    result))
 
 #+sbcl
 (defun (setf ioctl) (arg fd cmd)
   (sb-alien:with-alien ((value sb-alien:int))
-    (setf (sb-alien:deref value) arg)
+    (setf value arg)
     (multiple-value-bind (wonp error)
         (sb-unix:unix-ioctl (sb-sys:fd-stream-fd fd) cmd (sb-alien:alien-sap (sb-alien:addr value)))
       (unless wonp
