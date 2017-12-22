@@ -6,6 +6,34 @@
 
 (in-package #:org.shirakumo.spidev.lli)
 
+(cffi:defcfun (%ioctl "ioctl") :int
+  (fd :int)
+  (request :ulong)
+  (data :pointer))
+
+(declaim (inline stream-fd))
+(defun stream-fd (fd)
+  #+sbcl (sb-sys:fd-stream-fd fd)
+  #+ccl (ccl:stream-device fd :io)
+  #-(or sbcl ccl) fd)
+
+#-sbcl
+(defun ioctl (fd cmd)
+  (cffi:with-foreign-object (arg :int)
+    (let ((ret (%ioctl (stream-fd fd) cmd arg)))
+      (if (<= 0 ret)
+          (cffi:mem-ref arg :int)
+          (error "IOCTL ~a failed: ~a" cmd ret)))))
+
+#-sbcl
+(defun (setf ioctl) (value fd cmd)
+  (cffi:with-foreign-object (arg :int)
+    (setf (cffi:mem-ref arg :int) value)
+    (let ((ret (%ioctl (stream-fd fd) cmd arg)))
+      (if (<= 0 ret)
+          value
+          (error "IOCTL ~a failed: ~a" cmd ret)))))
+
 #+sbcl
 (defun ioctl (fd cmd)
   (sb-alien:with-alien ((result sb-alien:int))
@@ -24,26 +52,3 @@
       (unless wonp
         (error "IOCTL ~a failed: ~a" cmd (sb-impl::strerror error))))
     arg))
-
-#+ccl
-(defun ioctl (fd cmd)
-  (ccl:rletz ((result :int))
-    (let ((ret (ccl:external-call "ioctl" :int (ccl:stream-device fd :io)
-                                          :unsigned-long cmd
-                                          (:* :int) result
-                                          :int)))
-      (if (<= 0 ret)
-          (ccl:pref result :int)
-          (error "IOCTL ~a failed: ~a" cmd ret)))))
-
-#+ccl
-(defun (setf ioctl) (arg fd cmd)
-  (ccl:rletz ((value :int))
-    (setf (ccl:pref value :int) arg)
-    (let ((ret (ccl:external-call "ioctl" :int (ccl:stream-device fd :io)
-                                          :unsigned-long cmd
-                                          (:* :int) value
-                                          :int)))
-      (if (<= 0 ret)
-          arg
-          (error "IOCTL ~a failed: ~a" cmd ret)))))

@@ -19,4 +19,5 @@
                (:file "wrapper")
                (:file "documentation"))
   :depends-on (:documentation-utils
-               :trivial-garbage))
+               :trivial-garbage
+               :cffi))
