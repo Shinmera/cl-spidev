@@ -63,7 +63,7 @@
   (cl-spidev-lli:read-bytes bytes (handle-stream handle) :start start :end end))
 
 (defun read* (n handle)
-  (let ((array (make-array n :element-type `(unsigned-byte ,(bits/word handle)))))
+  (let ((array (make-array n :element-type `(unsigned-byte ,(handle-bits/word handle)))))
     (read array handle)
     array))
 
@@ -79,6 +79,6 @@
     (cl-spidev-lli:transmit
      (handle-stream handle)
      bytes
-     (or speed (max-speed handle))
+     (or speed (handle-max-speed handle))
      (* 1000000 (or delay 0))
-     (or bits/word (bits/word handle)))))
+     (or bits/word (handle-bits/word handle)))))
