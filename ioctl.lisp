@@ -11,6 +11,11 @@
   (request :ulong)
   (data :pointer))
 
+(cffi:defcvar "errno" :int)
+
+(cffi:defcfun strerror :string
+  (error :int))
+
 (declaim (inline stream-fd))
 (defun stream-fd (fd)
   #+sbcl (sb-sys:fd-stream-fd fd)
@@ -23,7 +28,7 @@
     (let ((ret (%ioctl (stream-fd fd) cmd arg)))
       (if (<= 0 ret)
           (cffi:mem-ref arg :int)
-          (error "IOCTL ~a failed: ~a" cmd ret)))))
+          (error "IOCTL ~a failed: ~a" cmd (strerror *errno*))))))
 
 #-sbcl
 (defun (setf ioctl) (value fd cmd)
@@ -32,7 +37,7 @@
     (let ((ret (%ioctl (stream-fd fd) cmd arg)))
       (if (<= 0 ret)
           value
-          (error "IOCTL ~a failed: ~a" cmd ret)))))
+          (error "IOCTL ~a failed: ~a" cmd (strerror *errno*))))))
 
 #+sbcl
 (defun ioctl (fd cmd)
