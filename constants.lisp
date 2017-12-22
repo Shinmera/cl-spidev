@@ -6,7 +6,7 @@ Author: Nicolas Hafner <shinmera@tymoon.eu>
 
 (in-package #:org.shirakumo.spidev.lli)
 
-(cffi:defcstruct (xfer :conc-name xfer-)
+(cffi:defcstruct (xfer :class xfer :conc-name xfer-)
   (tx-buf :uint64)
   (rx-buf :uint64)
   (len :uint32)

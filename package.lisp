@@ -27,6 +27,7 @@
    #:spi-tx-quad
    #:spi-rx-dual
    #:spi-rx-quad
+   #:spi-ioc-message-1
    #:spi-ioc-rd-mode
    #:spi-ioc-wr-mode
    #:spi-ioc-rd-lsb-first
@@ -46,7 +47,8 @@
    #:bits/word
    #:max-speed
    #:write-bytes
-   #:read-bytes))
+   #:read-bytes
+   #:transmit))
 
 (defpackage #:cl-spidev
   (:nicknames #:org.shirakumo.spidev #:spidev)
@@ -66,4 +68,5 @@
    #:read
    #:read*
    #:write
-   #:write*))
+   #:write*
+   #:transmit))
