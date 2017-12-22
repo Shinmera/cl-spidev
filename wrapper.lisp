@@ -76,7 +76,9 @@
 (defun transmit (handle bytes &key speed delay bits/word)
   (let ((bytes #+(or sbcl ccl) bytes
                #-(or sbcl ccl) (replace (cffi:make-shareable-byte-vector (length bytes)) bytes)))
-    (cl-spidev-lli:transmit handle bytes
-                            (or speed (max-speed handle))
-                            (* 1000000 (or delay 0))
-                            (or bits/word (bits/word handle)))))
+    (cl-spidev-lli:transmit
+     (handle-stream handle)
+     bytes
+     (or speed (max-speed handle))
+     (* 1000000 (or delay 0))
+     (or bits/word (bits/word handle)))))
