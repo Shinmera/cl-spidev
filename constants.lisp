@@ -6,6 +6,18 @@ Author: Nicolas Hafner <shinmera@tymoon.eu>
 
 (in-package #:org.shirakumo.spidev.lli)
 
+(cffi:defcstruct (xfer :conc-name xfer-)
+  (tx-buf :uint64)
+  (rx-buf :uint64)
+  (len :uint32)
+  (speed-hz :uint32)
+  (delay-usecs :uint16)
+  (bits/word :uint8)
+  (cs-change :uint8)
+  (tx-nbits :uint8)
+  (rx-nbits :uint8)
+  (pad :uint16))
+
 ;; Read out using constants.c
 (defconstant SPI-CPHA                 #x1)
 (defconstant SPI-CPOL                 #x2)
@@ -23,6 +35,7 @@ Author: Nicolas Hafner <shinmera@tymoon.eu>
 (defconstant SPI-TX-QUAD              #x200)
 (defconstant SPI-RX-DUAL              #x400)
 (defconstant SPI-RX-QUAD              #x800)
+(defconstant SPI-IOC-MESSAGE-1        #x40206B00)
 (defconstant SPI-IOC-RD-MODE          #x80016B01)
 (defconstant SPI-IOC-WR-MODE          #x40016B01)
 (defconstant SPI-IOC-RD-LSB-FIRST     #x80016B02)
