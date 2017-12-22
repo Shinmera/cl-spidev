@@ -8,6 +8,70 @@
 
 ;; constants.lisp
 (docs:define-docs
+  (type xfer
+    "Struct holding data for a transmission over the SPI.
+
+See XFER-TX-BUF
+See XFER-RX-BUF
+See XFER-LEN
+See XFER-SPEED-HZ
+See XFER-DELAY-USECS
+See XFER-BITS/WORD
+See XFER-CS-CHANGE
+See XFER-TX-NBITS
+See XFER-RX-NBITS
+See XFER-PAD")
+  
+  (function xfer-tx-buf
+    "Holds pointer to userspace buffer with transmit data, or null.
+
+See XFER")
+  
+  (function xfer-rx-buf
+    "Holds pointer to userspace buffer for receive data, or null.
+
+See XFER")
+  
+  (function xfer-len
+    "Length of tx and rx buffers, in bytes.
+
+See XFER")
+  
+  (function xfer-speed-hz
+    "Temporary override of the device's bitrate.
+
+See XFER")
+  
+  (function xfer-delay-usecs
+    "If nonzero, how long to delay after the last bit transfer before optionally deselecting the device before the next transfer.
+
+See XFER")
+  
+  (function xfer-bits/word
+    "Temporary override of the device's wordsize.
+
+See XFER")
+  
+  (function xfer-cs-change
+    "True to deselect device before starting the next transfer.
+
+See XFER")
+  
+  (function xfer-tx-nbits
+    "Unknown purpose, has to be set to zero.
+
+See XFER")
+  
+  (function xfer-rx-nbits
+    "Unknown purpose, has to be set to zero.
+
+See XFER")
+  
+  (function xfer-pad
+    "Unknown purpose, has to be set to zero.
+
+See XFER")
+  
   (variable spi-cpha
     "Constant holding the value defined in the kernel constant SPI_CPHA.")
   
@@ -55,6 +119,9 @@
   
   (variable spi-rx-quad
     "Constant holding the value defined in the kernel constant SPI_RX_QUAD.")
+
+  (variable spi-ioc-message-1
+    "Constant holding the value defined in the kernel constant SPI_IOC_MESSAGE(1).")
   
   (variable spi-ioc-rd-mode
     "Constant holding the value defined in the kernel constant SPI_IOC_RD_MODE.")
@@ -185,7 +252,23 @@ See BITS/WORD")
     "Reads a byte sequence from the SPIDEV device handle.
 
 See LSB-FIRST
-See BITS/WORD"))
+See BITS/WORD")
+
+  (function transmit
+    "Perform a SPI transmission of the given byte sequence.
+
+The array must be an unsigned-byte 8 array that is sharable.
+On most implementations that matter this will correspond to
+any simple-vector with element-type unsigned-byte 8.
+
+The speed-hz, delay-usecs, and bits/word parameters are temp
+overrides for the device configuration during the transmission.
+
+Returned is a fresh vector of the same length as the bytes
+vector, containing the contents of the read buffer of the
+transmission.
+
+See CFFI:MAKE-SHAREABLE-BYTE-VECTOR"))
 
 (in-package #:org.shirakumo.spidev)
 
@@ -276,4 +359,21 @@ See WRITE*")
   (function write
     "Writes the bytes in the arguments list to the SPIDEV device.
 
-See WRITE"))
+See WRITE")
+
+  (function transmit
+    "Perform a SPI transmission of the given byte sequence.
+
+The array must be an unsigned-byte 8 array.
+
+The speed-hz, delay-usecs, and bits/word parameters are temp
+overrides for the device configuration during the transmission.
+They default to MAX-SPEED, 0, and BITS/WORD respectively.
+
+Returned is a fresh vector of the same length as the bytes
+vector, containing the contents of the read buffer of the
+transmission.
+
+See HANDLE
+See MAX-SPEED
+See BITS/WORD"))
