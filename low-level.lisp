@@ -24,7 +24,8 @@
 
 (defun open-spi (id &key (direction :io))
   (open (spidev-file id) :direction direction
-                         :element-type '(unsigned-byte 8)))
+                         :element-type '(unsigned-byte 8)
+                         :if-exists :overwrite))
 
 (defun close-spi (handle)
   (finish-output handle)
