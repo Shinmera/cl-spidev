@@ -105,6 +105,3 @@
           (setf (xfer-pad xfer) 0)
           (setf (ioctl handle spi-ioc-message-1) (cffi:pointer-address xfer))
           read)))))
-
-(defun flush (handle)
-  (force-output handle))

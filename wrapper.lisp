@@ -68,7 +68,8 @@
     array))
 
 (defun write (bytes handle &key (start 0) end)
-  (cl-spidev-lli:write-bytes bytes (handle-stream handle) :start start :end end))
+  (cl-spidev-lli:write-bytes bytes (handle-stream handle) :start start :end end)
+  (finish-output (handle-stream handle)))
 
 (defun write* (handle &rest bytes)
   (write bytes handle))
@@ -82,6 +83,3 @@
      (or speed (handle-max-speed handle))
      (* 1000000 (or delay 0))
      (or bits/word (handle-bits/word handle)))))
-
-(defun flush (handle)
-  (cl-spidev-lli:flush (handle-stream handle)))
