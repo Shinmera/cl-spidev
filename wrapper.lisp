@@ -82,3 +82,6 @@
      (or speed (handle-max-speed handle))
      (* 1000000 (or delay 0))
      (or bits/word (handle-bits/word handle)))))
+
+(defun flush (handle)
+  (cl-spidev-lli:flush (handle-stream handle)))

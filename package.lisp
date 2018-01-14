@@ -48,7 +48,8 @@
    #:max-speed
    #:write-bytes
    #:read-bytes
-   #:transmit))
+   #:transmit
+   #:flush))
 
 (defpackage #:cl-spidev
   (:nicknames #:org.shirakumo.spidev #:spidev)
@@ -69,4 +70,5 @@
    #:read*
    #:write
    #:write*
-   #:transmit))
+   #:transmit
+   #:flush))
