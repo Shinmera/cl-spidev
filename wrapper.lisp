@@ -35,6 +35,7 @@
   (tg:cancel-finalization handle)
   (cl-spidev-lli:close-spi (handle-stream handle)))
 
+(setf (fdefinition 'handle) (fdefinition 'handle-stream))
 (setf (fdefinition 'mode) (fdefinition 'handle-mode))
 (setf (fdefinition 'lsb-first) (fdefinition 'handle-lsb-first))
 (setf (fdefinition 'bits/word) (fdefinition 'handle-bits/word))

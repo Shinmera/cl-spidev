@@ -279,6 +279,7 @@ See CFFI:MAKE-SHAREABLE-BYTE-VECTOR"))
 
 See OPEN
 See CLOSE
+See HANDLE
 See MODE
 See LSB-FIRST
 See BITS/WORD
@@ -287,6 +288,14 @@ See READ
 See READ*
 See WRITE
 See WRITE*")
+
+  (function handle
+    "Returns the underlying stream handle of the handle object.
+
+This is useful when you need to interact with the low-level
+system directly for some reason.
+
+See HANDLE")
 
   (function open
     "Open a handle to a SPIDEV device.
@@ -353,10 +362,16 @@ See READ")
 The bytes vector should contain unsigned-bytes of size up to
 the number of BITS/WORD of the handle.
 
+The bytes written are automatically flushed to the spi device
+handle, so that when WRITE returns, the operation should have
+completed. If you need to manually control flushing or need
+to write in much smaller intervals, please refer to the low-
+level interface.
+
 See HANDLE
 See WRITE*")
 
-  (function write
+  (function write*
     "Writes the bytes in the arguments list to the SPIDEV device.
 
 See WRITE")
