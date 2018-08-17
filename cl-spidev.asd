@@ -10,7 +10,9 @@
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
   :description "A library for the Linux SPIDEV kernel module as used on hobby kits such as the Raspberry Pi"
-  :homepage "https://github.com/Shinmera/cl-spidev"
+  :homepage "https://Shinmera.github.io/cl-spidev/"
+  :bug-tracker "https://github.com/Shinmera/cl-spidev/issues"
+  :source-control (:git "https://github.com/Shinmera/cl-spidev.git")
   :serial T
   :components ((:file "package")
                (:file "ioctl")
