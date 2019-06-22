@@ -6,7 +6,7 @@
 
 (asdf:defsystem cl-spidev
   :version "1.1.0"
-  :license "Artistic"
+  :license "zlib"
   :author "Nicolas Hafner <shinmera@tymoon.eu>"
   :maintainer "Nicolas Hafner <shinmera@tymoon.eu>"
   :description "A library for the Linux SPIDEV kernel module as used on hobby kits such as the Raspberry Pi"
